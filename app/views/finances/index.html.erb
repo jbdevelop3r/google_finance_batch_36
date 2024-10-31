@@ -1,0 +1,18 @@
+<h1>Stock Search</h1>
+
+<%= form_with url: finances_path, method: :get, local: true do |form| %>
+  <div>
+    <%= form.label :query, "Enter Stock Symbol:" %>
+    <%= form.text_field :query, placeholder: "e.g., AAPL", required: true %>
+  </div>
+  <div>
+    <%= form.submit "Search" %>
+  </div>
+<% end %>
+
+<% if @finances.present? %>
+  <h2>Search Results:</h2>
+  <pre><%= JSON.pretty_generate(@finances) %></pre>
+<% elsif params[:query].present? %>
+  <p>No results found for <%= params[:query] %>.</p>
+<% end %>
