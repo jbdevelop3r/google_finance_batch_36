@@ -1,3 +1,5 @@
+<!-- app/views/finances/index.html.erb -->
+
 <h1>Stock Search</h1>
 
 <%= form_with url: finances_path, method: :get, local: true do |form| %>
@@ -11,8 +13,18 @@
 <% end %>
 
 <% if @finances.present? %>
-  <h2>Search Results:</h2>
-  <pre><%= JSON.pretty_generate(@finances) %></pre>
+  <h2>Search Results for Stock Symbol: <%= @stock_symbol %></h2>
+
+  <h3>Asia Market Data:</h3>
+  <ul>
+    <% @finances.each do |market| %>
+      <li>
+        <strong><%= market["name"] %></strong> - Price: <%= market["price"] %>,
+        Movement: <%= market["price_movement"]["movement"] %> 
+        (<%= market["price_movement"]["value"] %> / <%= (market["price_movement"]["percentage"] * 100).round(2) %>%)
+      </li>
+    <% end %>
+  </ul>
 <% elsif params[:query].present? %>
   <p>No results found for <%= params[:query] %>.</p>
 <% end %>
